@@ -1,0 +1,33 @@
+apply plugin: 'jacoco'
+
+
+//jacoco {
+//
+//    reportsDir = file("$buildDir/JacocoReport")
+//}
+
+android {
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+    }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest", "connectedAndroidTest"]) {
+    group = "jacoco"
+    description = "Generate Jacoco coverage reports"
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def classDir = fileTree(
+            dir: "${project.buildDir}/intermediates/classes/debug",
+            excludes: ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', 'android/**/*.*'])
+    def sourceDir = "${project.projectDir}/src/main/java"
+    sourceDirectories = files([sourceDir])
+    classDirectories = files([classDir])
+    additionalSourceDirs = files(["${buildDir}/generated/source/buildConfig/debug", "${buildDir}/generated/source/r/debug"])
+    executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
+}
