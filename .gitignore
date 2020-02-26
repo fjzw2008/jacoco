@@ -7,14 +7,11 @@ release/
 
 # Ant
 # build.xml
-local.properties
-gradle-wrapper.properties
 lint.xml
 
 # Maven
 target/
 pom.xml.*
-release.properties
 
 # Eclipse
 .externalToolBuilders/
